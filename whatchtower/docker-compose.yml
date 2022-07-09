@@ -7,7 +7,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /etc/timezone:/etc/timezone:es
-      - /root/.docker/config.json:/config.json
+      - ~/.docker/config.json:/config.json
     environment:
       - TZ=Europe/Madrid
       - WATCHTOWER_CLEANUP=true
