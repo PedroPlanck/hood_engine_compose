@@ -1,5 +1,11 @@
 version: '3'
 
+x-logging: &default-logging
+  options:
+    max-size: "12m"
+    max-file: "1"
+  driver: json-file
+
 services:
   app:
     environment:
@@ -16,6 +22,7 @@ services:
       - db
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
+    logging: *default-logging
     depends_on:
       - db
   db:
@@ -28,6 +35,7 @@ services:
      - "3306:3306"
     volumes: 
       - ./db:/var/lib/mysql
+    logging: *default-logging
   redis:
     environment:
       - TZ=Europe/Madrid
@@ -35,7 +43,8 @@ services:
     ports:
      - "6379:6379"
     volumes:
-    - ./redis-volume:/data
+     - ./redis-volume:/data
+    logging: *default-logging
   celery:
     environment:
       - TZ=Europe/Madrid
@@ -46,6 +55,7 @@ services:
       - ./.env
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
+    logging: *default-logging
     depends_on:
       - db
       - redis
