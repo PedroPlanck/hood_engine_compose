@@ -2,7 +2,7 @@ version: '3'
 
 x-logging: &default-logging
   options:
-    max-size: "12m"
+    max-size: "2m"
     max-file: "1"
   driver: json-file
 
