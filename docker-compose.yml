@@ -25,6 +25,8 @@ services:
     logging: *default-logging
     depends_on:
       - db
+    networks:
+      - es-net
   db:
     environment:
       - TZ=Europe/Madrid
@@ -36,6 +38,8 @@ services:
     volumes: 
       - ./db:/var/lib/mysql
     logging: *default-logging
+    networks:
+      - es-net
   redis:
     environment:
       - TZ=Europe/Madrid
@@ -45,6 +49,8 @@ services:
     volumes:
      - ./redis-volume:/data
     logging: *default-logging
+    networks:
+      - es-net
   celery:
     environment:
       - TZ=Europe/Madrid
@@ -60,5 +66,38 @@ services:
       - db
       - redis
       - app
+      - elasticsearch
+    networks:
+      - es-net
+  elasticsearch:
+    container_name: es-container      
+    restart: always
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
+    volumes:
+      - ./esdata:/var/lib/elasticsearch/data
+    environment:
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+      - TZ=Europe/Madrid
+    logging: *default-logging
+    networks:
+      - es-net
+    ports:
+      - 9200:9200
+  kibana:
+    container_name: kb-container
+    image: docker.elastic.co/kibana/kibana:7.11.0
+    environment:
+      - ELASTICSEARCH_HOSTS=http://es-container:9200
+    logging: *default-logging
+    networks:
+      - es-net
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5601:5601
 volumes:
   db:
+networks:
+  es-net:
+    driver: bridge
