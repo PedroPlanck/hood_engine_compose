@@ -88,8 +88,8 @@ services:
     container_name: kb-container
     image: docker.elastic.co/kibana/kibana:7.11.0
     environment:
-      - ELASTICSEARCH_HOSTS: http://es-container:9200
-      - ELASTICSEARCH_URL: http://es-container:9200
+      - ELASTICSEARCH_HOSTS=http://es-container:9200
+      - ELASTICSEARCH_URL=http://es-container:9200
     logging: *default-logging
     networks:
       - es-net
