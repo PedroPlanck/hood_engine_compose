@@ -33,6 +33,8 @@ services:
     image: mysql:8.0
     env_file:
       - ./.env
+    command:
+      - '--binlog-expire-logs-seconds=1200'
     ports:
      - "3306:3306"
     volumes: 
