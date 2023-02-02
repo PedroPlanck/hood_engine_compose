@@ -15,7 +15,7 @@ services:
     ports:
       - "5050:5050"
     command: >
-      sh -c "python3 engine.py"
+      sh -c "python3 engine.pyc"
     env_file:
       - ./.env
     links:
