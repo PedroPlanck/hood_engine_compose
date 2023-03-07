@@ -99,6 +99,21 @@ services:
       - elasticsearch
     ports:
       - 5601:5601
+  keppa_reference:
+    environment:
+      - TZ=Europe/Madrid
+    image: "${HOOD_ENGINE_IMAGE}"
+    command: /bin/sh -c "while true; do python /src/keppa.pyc && sleep 86400; done" 
+    logging: *default-logging
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+      - redis
+      - app
+      - elasticsearch
+    networks:
+      - es-net
 volumes:
   db:
 networks:
