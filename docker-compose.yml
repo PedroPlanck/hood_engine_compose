@@ -103,7 +103,7 @@ services:
     environment:
       - TZ=Europe/Madrid
     image: "${HOOD_ENGINE_IMAGE}"
-    command: /bin/sh -c "while true; do python /src/keppa.pyc && sleep 86400; done" 
+    command: sh -c "python3 /src/keppa.pyc"
     logging: *default-logging
     env_file:
       - ./.env
