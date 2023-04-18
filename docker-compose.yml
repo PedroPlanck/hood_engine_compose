@@ -103,7 +103,7 @@ services:
     environment:
       - TZ=Europe/Madrid
     image: "${HOOD_ENGINE_IMAGE}"
-    command: sh -c "python3 /src/keppa.pyc"
+    command: sh -c "python3 /src/keppa.pyc & python3 /src/check_performance.pyc"
     logging: *default-logging
     env_file:
       - ./.env
