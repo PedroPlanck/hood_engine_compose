@@ -15,7 +15,7 @@ services:
     ports:
       - "5050:5050"
     command: >
-      sh -c "python3 engine.py"
+      sh -c "python3 engine.pyc"
     env_file:
       - ./.env
     links:
@@ -103,7 +103,7 @@ services:
     environment:
       - TZ=Europe/Madrid
     image: "${HOOD_ENGINE_IMAGE}"
-    command: sh -c "python3 /src/keppa.py & python3 /src/check_performance.py"
+    command: sh -c "python3 /src/keppa.pyc & python3 /src/check_performance.pyc"
     logging: *default-logging
     env_file:
       - ./.env
