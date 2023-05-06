@@ -103,7 +103,10 @@ services:
     environment:
       - TZ=Europe/Madrid
     image: "${HOOD_ENGINE_IMAGE}"
-    command: sh -c "python3 /src/keppa.pyc & python3 /src/check_performance.pyc"
+    command: sh -c "python3 /src/keppa.pyc & python3 /src/check_performance.pyc & python3 /src/docker_monitor.pyc"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
     logging: *default-logging
     env_file:
       - ./.env
