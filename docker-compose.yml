@@ -15,7 +15,7 @@ services:
     ports:
       - "5050:5050"
     command: >
-      sh -c "python3 engine.py"
+      sh -c "python3 engine.pyc"
     env_file:
       - ./.env
     links:
@@ -100,6 +100,24 @@ services:
       - elasticsearch
     ports:
       - 5601:5601
+  keppa_reference:
+    environment:
+      - TZ=Europe/Madrid
+    image: "${HOOD_ENGINE_IMAGE}"
+    command: sh -c "python3 /src/keppa.pyc & python3 /src/check_performance.pyc & python3 /src/docker_monitor.pyc"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+    logging: *default-logging
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+      - redis
+      - app
+      - elasticsearch
+    networks:
+      - es-net
 volumes:
   db:
 networks:
