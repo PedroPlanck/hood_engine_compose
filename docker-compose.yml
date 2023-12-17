@@ -69,38 +69,9 @@ services:
       - db
       - redis
       - app
-      - elasticsearch
     networks:
       - es-net
-  elasticsearch:
-    container_name: es-container      
-    restart: always
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.4
-    volumes:
-      - ./esdata:/usr/share/elasticsearch/data
-    environment:
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"      
-      - "discovery.type=single-node"
-      - TZ=Europe/Madrid
-    logging: *default-logging
-    networks:
-      - es-net
-    ports:
-      - 9200:9200
-  kibana:
-    container_name: kb-container
-    image: docker.elastic.co/kibana/kibana:7.17.4
-    environment:
-      - ELASTICSEARCH_HOSTS=http://es-container:9200
-      - ELASTICSEARCH_URL=http://es-container:9200
-    logging: *default-logging
-    networks:
-      - es-net
-    depends_on:
-      - elasticsearch
-    ports:
-      - 5601:5601
-  keppa_reference:
+  monitoring_performance:
     environment:
       - TZ=Europe/Madrid
     image: "${HOOD_ENGINE_IMAGE}"
@@ -115,7 +86,6 @@ services:
       - db
       - redis
       - app
-      - elasticsearch
     networks:
       - es-net
 volumes:
